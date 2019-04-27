@@ -1,0 +1,90 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Deployment of Redis service under ECS
+
+
+Parameters:
+
+   Service:
+      Description: Name of application service endpoint
+      Type: String
+      AllowedPattern: ^[A-Za-z0-9/]*$
+   Cpu:
+      Type: Number
+      MinValue: 1
+      MaxValue: 4096
+      Default: 600
+
+   MemoryTask:
+      Type: Number
+      MinValue: 128
+      Default: 1024
+
+   DesiredCount:
+      Description: Target number of containers to run on ECS cluster
+      Type: Number
+      MinValue: 1
+      Default: 1
+   MinCapacity:
+      Description: Min number of containers to run on ECS Cluster
+      Type: Number
+      MinValue: 1
+      Default: 1
+   Memory:
+      Description: Hard limit for memory in MB available to container
+      Type: Number
+      MinValue: 128
+      Default: 1024
+   MemoryReservation:
+      Description: Base memory in MB reserved for container
+      Type: Number
+      MinValue: 128
+      Default: 512
+   Image:
+      Description: URL of docker image
+      Type: String
+   Port:
+      Description: Container & Host Port
+      Type: Number
+
+  
+  
+  
+   
+     
+Resources:
+
+   
+   TaskDefinition:
+      Type: AWS::ECS::TaskDefinition
+      Properties:
+         Family: !Ref AWS::StackName
+         Cpu: !Ref Cpu
+         Memory: !Ref MemoryTask
+         ContainerDefinitions:
+          - Name: !Ref AWS::StackName
+#            MountPoints: 
+ #             - 
+  #              SourceVolume: "/etc"
+   #             ContainerPath: "/data/dump.rdb"
+            Memory: !Ref Memory
+            MemoryReservation: !Ref MemoryReservation
+            Image: !Ref Image
+            PortMappings:
+             - ContainerPort: !Ref Port
+               HostPort: !Ref Port
+             
+            
+   EcsService:
+      Type: AWS::ECS::Service
+      
+      Properties:
+        Cluster: Cache-Redis-Memcached
+        DeploymentConfiguration:
+           MaximumPercent: 200
+           MinimumHealthyPercent: 100
+        DesiredCount: !Ref DesiredCount
+        PlacementStrategies: 
+         - Type: spread
+           Field: attribute:ecs.availability-zone
+        TaskDefinition: !Ref TaskDefinition
+

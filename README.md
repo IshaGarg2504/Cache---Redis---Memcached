@@ -14,13 +14,17 @@ To Deploy Memcache and Redis container on ECS Cluster.
   Build Docker Image for Redis using Dockerfile present in the repo.
   Dockerfile uses scriptfile "insertData.sh" present in the repo to insert key-value pair to Redis at every 5 minutes.
   Use CF_template.yml to deploy the image on ECS cluster. Run :
-  aws cloudformation create-stack --stack-name <Name of the stack > --template-body file://CF_template.yml --parameters ParameterKey=,ParameterValue= ......
+  
+  **aws cloudformation create-stack --stack-name <Name of the stack > --template-body file://CF_template.yml --parameters ParameterKey=,ParameterValue= .....**
   
 - To deploy Memcache :
   Pull default docker image from docker hub using 
+  
     **docker pull memcache:latest**
+    
   Use CF_template.yml to deploy the image on ECS cluster. Run :
-  aws cloudformation create-stack --stack-name <Name of the stack > --template-body file://CF_template.yml --parameters ParameterKey=,ParameterValue= ...... 
+  
+  **aws cloudformation create-stack --stack-name <Name of the stack > --template-body file://CF_template.yml --parameters ParameterKey=,ParameterValue= ......**
   
   
   

@@ -62,10 +62,6 @@ Resources:
          Memory: !Ref MemoryTask
          ContainerDefinitions:
           - Name: !Ref AWS::StackName
-#            MountPoints: 
- #             - 
-  #              SourceVolume: "/etc"
-   #             ContainerPath: "/data/dump.rdb"
             Memory: !Ref Memory
             MemoryReservation: !Ref MemoryReservation
             Image: !Ref Image

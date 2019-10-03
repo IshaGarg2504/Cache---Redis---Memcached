@@ -3,7 +3,7 @@
 #
 # https://github.com/dockerfile/redis
 #
-###Test2
+###Test3
 # Pull base image.
 FROM ubuntu
 
